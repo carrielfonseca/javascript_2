@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Expense Report</title>
+    <link href="styles/expense.css" rel="stylesheet" type="text/css" />
+    <script type="text/ecmascript" src="scripts/travelExp.js"></script>
+
+    <!--
+       Assignment 2
+       Expense Report Form
+       Author: Ana Lucia Chin and Fabio Carriel Fonseca  
+       Date: March 18 2014
+
+       Filename:         travel-expense.html
+       Supporting files: back.jpg, exp.css, travelExp.js., links.jpg, logo.jpg
+    -->
+
+    <script type = "text/ecmascript">
+
+    function calcRow(row) {
+        var sumOfRow;
+        var travel = parseFloat(document.expform.elements["travel" + row].value);
+        var lodge = parseFloat(document.expform.elements["lodge" + row].value);
+        var meal = parseFloat(document.expform.elements["meal" + row].value);
+
+        sumOfRow = travel + lodge + meal;
+        //document.expform.sub1.value = sumOfRow;
+        
+        return sumOfRow;        
+    }    
+
+
+    function calcTotal() {
+        var totalExp = 0;
+        for(count = 1; count <= 4; count++) {
+           totalExp = totalExp + calcRow(count);
+
+        }        
+        //document.expform.total.value = totalExp;
+        return totalExp;        
+    }     
+
+   function update(expense) {
+        var numRegExp = /^\d+\.{0,1}\d{0,2}$/;
+        if (testPattern(numRegExp,expense) == true) {
+            document.expform.sub1.value = calcRow(1).toFixed(2);
+            document.expform.sub2.value = calcRow(2).toFixed(2);
+            document.expform.sub3.value = calcRow(3).toFixed(2);
+            document.expform.sub4.value = calcRow(4).toFixed(2);       
+            document.expform.total.value = calcTotal().toFixed(2);    
+        }
+        else {
+           window.alert("Invalid currency value");
+           expense.value = 0;
+           expense.focus();
+        }        
+    }   
+
+    
+    
+        
+    </script>
+</head>
+
+<body>
+    <div id="links"><img src="images/links.jpg" alt="" /></div>
+    <div id="main">
+        <p><img src="images/logo.jpg" alt="DeLong Enterprises" /></p>
+        <form name="expform" id="expform" method="post" action="done.html" onsubmit="return validateForm();">
+
+            <table>
+                <tr>
+                    <th colspan="5" id="reporttitle">Travel Expense Report</th>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="lastname" tabindex="1">Last Name</label>
+                        <span>*</span>
+                    </th>
+                    <th>
+                        <label for="firstname" tabindex="2">First Last</label>
+                        <span>*</span>
+                    </th>
+                    <th>
+                        <label for="initial" tabindex="3">Initial</label>
+                        <span>*</span>
+                    </th>
+                    <th>
+                        <label for="account" tabindex="4">Account</label>
+                        <span>*</span>
+                    </th>
+
+                    <th>
+                        <input type="text" name="account" id="account" tabindex="8" />
+                    </th>
+                </tr>
+                <tr>
+                    <td><input type="text" name="lastname" id="lastname" tabindex="5" /></td>
+                    <td><input type="text" name="firstname" id="firstname" tabindex="6" /></td>
+                    <td><input type="text" name="initial" id="initial" tabindex="7" /></td>
+                    <th>
+                        <label for="department" tabindex="9">Department</label>
+                        <span>*</span>
+                    </th>
+                    <td><input type="text" name="department" id="department" tabindex="10" /></td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="ssn" tabindex="11">Social Security Number</label>
+                        <span>*</span>
+                    </th>
+                    <td colspan="2"><input type="text" name="ssn" id="ssn" tabindex="12" /></td>
+                    <th>
+                        <label for="project" tabindex="13">Project</label>
+                        <span>*</span>
+
+                    </th>
+                    <td><input type="text" name="project" id="project" tabindex="14" /></td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <th>Send Check to:<span>*</span></th>
+                    <th>Trip Summary<span>*</span></th>
+                </tr>
+                <tr>
+                    <td>
+                        <textarea id="address" name="address"></textarea>
+                    </td>
+                    <td>
+                        <textarea id="summary1" name="summary1"></textarea>
+                    </td>
+                </tr>
+            </table>
+
+            <table id="traveltable">
+                <tr>
+                    <th id="datehead">Travel Date<span>*</span></th>
+                    <th id="travelexphead">Travel Cost</th>
+                    <th id="traveltypehead">Type</th>
+                    <th id="lodgeexphead">Lodging</th>
+                    <th id="mealexphead">Meals</th>
+                    <th id="subhead">Total</th>
+                </tr>
+                <tr>
+                    <td><input type="date" name="date1" id="date1" /></td>
+                    <td><input type="number" name="travel1" id="travel1" value="0.00" onblur = "update(this);" step = 'any'/></td>
+                    <td>
+                        <select name="traveltype1" id="traveltype1">
+                            <option>air</option>
+                            <option>auto</option>
+                            <option>taxi</option>
+                            <option>train</option>
+                        </select>
+                    </td>
+                    <td><input type="number" name="lodge1" id="lodge1" value="0.00" onblur = "update(this);" step = 'any'/></td>
+                    <td><input type="number" name="meal1" id="meal1" value="0.00" onblur = "update(this);" step = 'any'/></td>
+                    <td><input type="text" name="sub1" id="sub1" value="0.00" readonly="readonly"/></td>
+                </tr>
+                <tr>
+                    <td><input type="date" name="date2" id="date2" /></td>
+                    <td><input type="number" name="travel2" id="travel2" value="0.00" onblur = "update(this);" step = 'any'/></td>
+                    <td>
+                        <select name="traveltype2" id="traveltype2">
+                            <option>air</option>
+                            <option>auto</option>
+                            <option>taxi</option>
+                            <option>train</option>
+                        </select>
+                    </td>
+                    <td><input type="number" name="lodge2" id="lodge2" value="0.00" onblur = "update(this);" step = 'any'/></td>
+                    <td><input type="number" name="meal2" id="meal2" value="0.00" onblur = "update(this);" step = 'any'/></td>
+                    <td><input type="text" name="sub2" id="sub2" value="0.00" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <td><input type="date" name="date3" id="date3" /></td>
+                    <td><input type="number" name="travel3" id="travel3" value="0.00" onblur = "update(this);" step = 'any'/></td>
+                    <td>
+                        <select name="traveltype3" id="traveltype3">
+                            <option>air</option>
+                            <option>auto</option>
+                            <option>taxi</option>
+                            <option>train</option>
+                        </select>
+                    </td>
+                    <td><input type="number" name="lodge3" id="lodge3" value="0.00" onblur = "update(this);" step = 'any'/></td>
+                    <td><input type="number" name="meal3" id="meal3" value="0.00" onblur = "update(this);" step = 'any'/></td>
+                    <td><input type="text" name="sub3" id="sub3" value="0.00" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <td><input type="date" name="date4" id="date4" /></td>
+                    <td><input type="number" name="travel4" id="travel4" value="0.00" onblur = "update(this);" step = 'any'/></td>
+                    <td>
+                        <select name="traveltype4" id="traveltype4" >
+                            <option>air</option>
+                            <option>auto</option>
+                            <option>taxi</option>
+                            <option>train</option>
+                        </select>
+                    </td>
+                    <td><input type="number" name="lodge4" id="lodge4" value="0.00" onblur = "update(this);" step = 'any'/></td>
+                    <td><input type="number" name="meal4" id="meal4" value="0.00" onblur = "update(this);" step = 'any'/></td>
+                    <td><input type="text" name="sub4" id="sub4" value="0.00" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <th colspan="5" id="totalhead">TOTAL</th>
+                    <td><input type="text" id="total" name="total" readonly="readonly" value="0.00" /></td>
+                </tr>
+                <tr>
+                    <td colspan="6"><span>* - Indicates a required field</span></td>
+                </tr>
+            </table>
+
+            <p id="psub">
+                <input type="submit" name="submit" id="submit" value="Submit Report"/>
+            </p>
+
+        </form>
+    </div>
+</body>
+</html>
